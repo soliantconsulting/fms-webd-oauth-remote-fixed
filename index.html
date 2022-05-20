@@ -16,9 +16,10 @@
 	</noscript>
 	<script>
 		var dbName = "OAuth_tester";
+		var fmsDNS = 'mbp2013.ets.fm';
 
 		function initOAuth() {
-			getProviderInfo(function (providerInfo) {
+			getProviderInfo(fmsDNS, function (providerInfo) {
 				// Generate OAuth UI from the list of supported providers
 				// Here we just hardcode one button for Keycloak OAuth
 				if (providerInfo != null && providerInfo != "") {
@@ -38,7 +39,7 @@
 			});
 		}
 
-		function showOAuthLogin(providerName) {
+		function showOAuthLogin(providerName, fmsDNS) {
 			let child = window.open("", "OAuth", "width=800, height=600");
 			let trackingId = "123432";
 			let master = window.location.hostname;
@@ -60,7 +61,7 @@
 					if (trackingId = retTrackingId) {
 						window.removeEventListener("storage", processOAuthResponse);
 						localStorage.removeItem('oauth-response');
-						doOAuthLogin(dbName, requestId, getOAuthResponseParameter(response, 'identifier'), 'https://' + master, getOAuthResponseParameter(response, 'error'));
+						doOAuthLogin(dbName, requestId, getOAuthResponseParameter(response, 'identifier'), 'https://' + master, getOAuthResponseParameter(response, 'error'), fmsDNS);
 					}
 				});
 			});
