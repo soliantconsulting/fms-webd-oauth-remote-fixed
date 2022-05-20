@@ -22,7 +22,8 @@ function getProviderInfo(callback) {
 
 function getOAuthURL(trackingId, masterAddr, provider, callback) {
 	var xhr, queryStr;
-	var server = 'https://mbp2013.ets.fm';
+	var fmsDNS = 'mbp2013.ets.fm';
+	var fmsUrl = 'https://' + fmsDNS;
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
@@ -31,13 +32,13 @@ function getOAuthURL(trackingId, masterAddr, provider, callback) {
 			}
 		}
 	};
-	queryStr = 'trackingID=' + trackingId + '&provider=' + provider + '&address=' + masterAddr + '&X-FMS-OAuth-AuthType=2';
-	xhr.open('GET', server + '/fmi/webd/oauthapi/getoauthurl?' + queryStr, true);
+	queryStr = 'trackingID=' + trackingId + '&provider=' + provider + '&address=' + fmsDNS + '&X-FMS-OAuth-AuthType=2';
+	xhr.open('GET', fmsUrl + '/fmi/webd/oauthapi/getoauthurl?' + queryStr, true);
 	//xhr.open('GET', '/fmi/webd/oauthapi/getoauthurl?' + queryStr, true);
 	xhr.setRequestHeader('X-FMS-Application-Type', '8');
 	// xhr.setRequestHeader('X-FMS-Application-Version', '17');
 	// xhr.setRequestHeader('X-FMS-Return-URL', window.location.origin + '/fmi/webd/oauth-landing.html');
-	xhr.setRequestHeader('X-FMS-Return-URL', "https://" + masterAddr + '/fmi/webd/oauth-landing.html');
+	xhr.setRequestHeader('X-FMS-Return-URL', "https://" + fmsDNS + '/fmi/webd/oauth-landing.html');
 	xhr.send();
 }
 
