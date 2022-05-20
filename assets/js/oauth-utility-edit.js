@@ -20,9 +20,8 @@ function getProviderInfo(fmsDNS, callback) {
 	xhr.send();
 }
 
-function getOAuthURL(trackingId, masterAddr, provider, callback) {
+function getOAuthURL(trackingId, fmsDNS, provider, callback) {
 	var xhr, queryStr;
-	var fmsDNS = 'mbp2013.ets.fm';
 	var fmsUrl = 'https://' + fmsDNS;
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function () {

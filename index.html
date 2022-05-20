@@ -42,9 +42,9 @@
 		function showOAuthLogin(providerName, fmsDNS) {
 			let child = window.open("", "OAuth", "width=800, height=600");
 			let trackingId = "123432";
-			let master = window.location.hostname;
+			let homeUrl = 'https://' + window.location.hostname;
 
-			getOAuthURL(trackingId, master, providerName, function (oauthUrl, requestId) {
+			getOAuthURL(trackingId, fmsDNS, providerName, function (oauthUrl, requestId) {
 				// alert("url = " + oauthUrl + ", address = " + master + " - v4");
 				child.location.replace(oauthUrl);
 
@@ -61,7 +61,7 @@
 					if (trackingId = retTrackingId) {
 						window.removeEventListener("storage", processOAuthResponse);
 						localStorage.removeItem('oauth-response');
-						doOAuthLogin(dbName, requestId, getOAuthResponseParameter(response, 'identifier'), 'https://' + master, getOAuthResponseParameter(response, 'error'), fmsDNS);
+						doOAuthLogin(dbName, requestId, getOAuthResponseParameter(response, 'identifier'), homeUrl, getOAuthResponseParameter(response, 'error'), fmsDNS);
 					}
 				});
 			});
