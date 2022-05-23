@@ -32,7 +32,6 @@
 					button.style.textAlign = 'center';
 					button.dataset.provider = providerInfo;
 					button.onclick = function () {
-						// showOAuthLogin("Keycloak", fmsDNS);
 						getLoginInfoFromFMS();
 					}
 
@@ -50,7 +49,6 @@
 		// listen for messages from FMS
 		window.addEventListener("message", (e) => {
 			var data = e.data;
-			//alert("message received: " + data);
 
 			if (data === "hello") {
 				// the fms page is loaded, send it what to do
