@@ -52,7 +52,7 @@
 
 			if (data === "hello") {
 				// the fms page is loaded, send it what to do
-				fmsWindow.postMessage("identifier", "*");
+				fmsWindow.postMessage({ action: "identifier", providerName: "Keycloak" }, "*");
 			}
 			else {
 				// this is the response after the IdP login over on the FMS side
