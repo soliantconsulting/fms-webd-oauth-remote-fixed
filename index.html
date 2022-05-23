@@ -17,6 +17,8 @@
 	<script>
 		var dbName = "OAuth_tester";
 		var fmsDNS = 'mbp2013.ets.fm';
+		var thisDNS = window.location.hostname;
+		let fmsWindow;
 
 		function initOAuth() {
 			getProviderInfo(fmsDNS, function (providerInfo) {
@@ -30,7 +32,8 @@
 					button.style.textAlign = 'center';
 					button.dataset.provider = providerInfo;
 					button.onclick = function () {
-						showOAuthLogin("Keycloak");
+						// showOAuthLogin("Keycloak", fmsDNS);
+						getLoginInfoFromFMS();
 					}
 
 					let oauthWrapper = document.getElementById("inner");
@@ -39,16 +42,43 @@
 			});
 		}
 
+		function getLoginInfoFromFMS() {
+			fmsWindow = window.open("https://" + fmsDNS + "/identifier.html");
+			// we'll wait for the initial message (handshake) before sending the actual instruction
+		}
+
+		// listen for messages from FMS
+		window.addEventListener("message", (e) => {
+			var data = e.data;
+			//alert("message received: " + data);
+
+			if (data === "hello") {
+				// the fms page is loaded, send it what to do
+				fmsWindow.postMessage("identifier", "*");
+			}
+			else {
+				// this is the response after the IdP login over on the FMS side
+				const { identifier, errorMessage, requestId } = data; // payload = {identifier, errorMessage, requestId};
+				let homeUrl = 'https://' + thisDNS;
+				fmsWindow.close();
+				doOAuthLogin(dbName, requestId, identifier, homeUrl, errorMessage, fmsDNS);
+			}
+		});
+
 		function showOAuthLogin(providerName, fmsDNS) {
-			let child = window.open("", "OAuth", "width=800, height=600");
+
+			let authWindow = window.open("", "OAuth", "width=800, height=600");
 			let trackingId = "123432";
 			let homeUrl = 'https://' + window.location.hostname;
 
 			getOAuthURL(trackingId, fmsDNS, providerName, function (oauthUrl, requestId) {
-				// alert("url = " + oauthUrl + ", address = " + master + " - v4");
-				child.location.replace(oauthUrl);
+
+				// this part is called as the callback when we have the URL
+				alert(oauthUrl);
+				authWindow.location.replace(oauthUrl);
 
 				// Listen to localstorage event to receive response from OAuth provider
+				// but storage only works for same-domain deployments, when this code runs on the FMS box
 				window.addEventListener("storage", function processOAuthResponse(event) {
 					// Response from OAuth provider
 					// Sample format: "trackingID=123432&identifier=83FF55EF5B8B1442D702C19DF63115BC&error=0"
