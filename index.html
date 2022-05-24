@@ -17,7 +17,7 @@
 	<script>
 		var dbName = "OAuth_tester";
 		var fmsDNS = 'fms.ets.fm';
-		var thisDNS = window.location.hostname;
+		var thisDNS = 'web.ets.fm';
 		let fmsWindow;
 
 		function initOAuth() {
@@ -58,6 +58,7 @@
 				// this is the response after the IdP login over on the FMS side
 				const { identifier, errorMessage, requestId } = data; // payload = {identifier, errorMessage, requestId};
 				let homeUrl = 'https://' + thisDNS;
+				console.log(homeUrl);
 				fmsWindow.close();
 				doOAuthLogin(dbName, requestId, identifier, homeUrl, errorMessage, fmsDNS);
 			}
