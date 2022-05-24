@@ -13,12 +13,10 @@ function getProviderInfo(fmsDNS, callback) {
 		}
 	};
 	xhr.open('GET', server + '/fmi/webd/oauthapi/oauthproviderinfo', true);
-
-	//xhr.setRequestHeader('X-FMS-Application-Type', '8');
-	//xhr.setRequestHeader('X-FMS-Application-Version', '17');
 	xhr.send();
 }
 
+/* NOW RUNS ON THE FMS BOX
 function getOAuthURL(trackingId, fmsDNS, provider, callback) {
 	var xhr, queryStr;
 	var fmsUrl = 'https://' + fmsDNS;
@@ -44,6 +42,7 @@ function getOAuthURL(trackingId, fmsDNS, provider, callback) {
 	//xhr.setRequestHeader('X-FMS-Return-URL', 'https://neede.ets.fm/blank.html');
 	xhr.send();
 }
+*/
 
 function doOAuthLogin(dbName, requestId, identifier, homeurl, autherr, fmsDNS) {
 	var form, node, queryStr;

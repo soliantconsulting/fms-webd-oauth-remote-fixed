@@ -16,7 +16,7 @@
 	</noscript>
 	<script>
 		var dbName = "OAuth_tester";
-		var fmsDNS = 'mbp2013.ets.fm';
+		var fmsDNS = 'fms.ets.fm';
 		var thisDNS = window.location.hostname;
 		let fmsWindow;
 
@@ -52,7 +52,7 @@
 
 			if (data === "hello") {
 				// the fms page is loaded, send it what to do
-				fmsWindow.postMessage({ action: "identifier", providerName: "Keycloak" }, "*");
+				fmsWindow.postMessage({ action: "login", providerName: "Keycloak" }, "*");
 			}
 			else {
 				// this is the response after the IdP login over on the FMS side
@@ -63,6 +63,7 @@
 			}
 		});
 
+		/*
 		function showOAuthLogin(providerName, fmsDNS) {
 
 			let authWindow = window.open("", "OAuth", "width=800, height=600");
@@ -111,6 +112,7 @@
 			}
 			return "";
 		}
+		*/
 	</script>
 </head>
 
