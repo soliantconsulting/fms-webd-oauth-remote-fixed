@@ -6,7 +6,7 @@ It does require some HTML and JS to be on your FileMaker Server.
 See the companion repo: https://github.com/wimdecorte/fms-webd-oauth-remote-companion
 
 See this blog post for how it works:
-<TBD>
+https://www.soliantconsulting.com/blog/filemaker-custom-oauth-login-webdirect/
 
 This functionality to fully customize the login experience already exists for logging in with regular FileMaker accounts, see this resource:
 https://github.com/bharlow/fm-webdirect-custom
