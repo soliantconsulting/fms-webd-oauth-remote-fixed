@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>oauth-landing</title>
+	<script type="text/javascript">
+		function saveMessage() {
+			const url = new URL(window.location.href);
+			localStorage.setItem('oauth-response', url.search.substring(1));
+			closeWindow();
+		}
+		function closeWindow() {
+			var bIsSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
+				bIsIOS = /iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1),
+				kTimeOut = 3000;
+			if (window.opener) {
+				// [FMPD-19347] Navigation to WebD Session blocked by mobile Safari's "Save Password" option.
+				if (bIsIOS && bIsSafari) {
+					setTimeout(function(){window.close()}, kTimeOut);
+				} else {
+					window.close();
+				}
+			} else {
+				// Trick to prevent confirm dialog when closing child window.
+				// https://blogs.msdn.microsoft.com/rextang/2008/10/17/ie-prevent-confirming-dialog-box-when-using-window-close-to-close-a-main-window/
+				var win = window.open('', '_top', '', 'true');
+				win.opener = true;
+				win.close();
+			}
+		}
+	</script>
+</head>
+<body onload='saveMessage()'>
+</body>
+</html>

@@ -1,12 +1,14 @@
 This sample website shows how you can start the OAuth login flow into a WebDirect file, right from your own web site.
 Without taking the user to the WebDirect launch center or the WebDirect file's login screen.
 
+Based on the Claris utility described here:
+https://support.claris.com/s/answerview?anum=000035915
+
 This version is for use on web site that does not run on FileMaker Server.
-It does require some HTML and JS to be on your FileMaker Server.
-See the companion repo: https://github.com/wimdecorte/fms-webd-oauth-remote-companion
+It does require no HTML or JS files to be installed on your FileMaker Server
 
 See this blog post for how it works:
-https://www.soliantconsulting.com/blog/filemaker-custom-oauth-login-webdirect/
+<TBD>
 
 This functionality to fully customize the login experience already exists for logging in with regular FileMaker accounts, see this resource:
 https://github.com/bharlow/fm-webdirect-custom
