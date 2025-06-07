@@ -6,6 +6,8 @@ function getProviderInfo(fmsDNS, callback) {
 			var providerInfo = null;
 			if (xhr.status == 200 && xhr.responseText != null && xhr.responseText != '') {
 				providerInfo = xhr.responseText;
+				const allHeaders = xhr.getAllResponseHeaders();
+        console.log(allHeaders);
 			}
 			if (callback) {
 				callback(providerInfo);
@@ -42,8 +44,8 @@ function getOAuthURL(trackingId, fmsDNS, provider, callback) {
 	// xhr.setRequestHeader('X-FMS-Application-Version', '17');
 	// this is where FMS will redirect to once it is done, the identifier will be in the URL at this point
 	xhr.setRequestHeader('X-FMS-Return-URL', window.location.origin + '/oauth-landing.html');
+	console.log("X-FMS-Return-URL", window.location.origin + '/oauth-landing.html');
 	// xhr.setRequestHeader('X-FMS-Return-URL', fmsUrl + '/fmi/webd/oauth-landing.html');
-
 	xhr.send();
 }
 
