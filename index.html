@@ -14,12 +14,27 @@
 	<noscript>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
 	</noscript>
+	<script src="https://unpkg.com/loglevel/dist/loglevel.min.js"></script>
 	<script>
+
+		// config area
 		var dbName = "OAuth_tester";
 		var fmsDNS = 'mbp2013.ets.fm';
 		var thisDNS = 'webdlogin.ets.fm';
 		var OauthProvider = "Microsoft";
 		var homeUrl = "https://" + thisDNS + "/index.html";
+		log.setLevel("debug"); // set to silent disable logging
+		// end config area
+
+		// log the full config
+		log.debug("config:", {
+			dbName: dbName,
+			fmsDNS: fmsDNS,
+			thisDNS: thisDNS,
+			OauthProvider: OauthProvider,
+			homeUrl: homeUrl,
+		});
+
 		let fmsWindow;
 
 		function initOAuth() {
@@ -55,8 +70,12 @@
 			let master = window.location.hostname;
 
 			getOAuthURL(trackingId, fmsDNS, OauthProvider, function (oauthUrl, requestId) {
-				console.log("oauthUrl", oauthUrl);
-				console.log("requestId", requestId);
+				
+				log.debug("callback_getOAuthURL", {
+					oauthUrl: oauthUrl,
+					requestId: requestId
+				});
+
 				child.location.replace(oauthUrl);
 
 				// Listen to localstorage event to receive response from OAuth provider
@@ -69,22 +88,23 @@
 					let retIdentifier = getOAuthResponseParameter(response, 'identifier');
 					let retError = getOAuthResponseParameter(response, 'error');
 
-					console.log("retIdentifier", retIdentifier);
-					console.log("retError", retError);
+					log.debug("retIdentifier", retIdentifier);
+					log.debug("retError", retError);
 
 					// Compare tracking ID against returned one to make sure
 					// this is the correct response to process
 					if (trackingId == retTrackingId) {
 						window.removeEventListener("storage", processOAuthResponse);
-						localStorage.removeItem('oauth-response');
-						console.log("response after login", response);
+						//localStorage.removeItem('oauth-response');
+						log.debug("response after login", response);
 						doOAuthLogin(dbName, requestId, retIdentifier, homeUrl, retError, fmsDNS);
 					}
 					else {
-						console.log("tracking ids do not match:");
-						console.log("trackingId", trackingId);
-						console.log("retTrackingId", retTrackingId);
-						console.log("response", response);
+						log.debug("tracking ids do not match:", {
+							trackingId: trackingId,
+							retTrackingId: retTrackingId,
+							response: response
+						});
 					}
 				});
 			});
