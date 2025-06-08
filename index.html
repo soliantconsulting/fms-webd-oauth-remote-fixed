@@ -71,6 +71,7 @@
 					if (trackingId = retTrackingId) {
 						window.removeEventListener("storage", processOAuthResponse);
 						localStorage.removeItem('oauth-response');
+						console.log("response after login", response);
 						doOAuthLogin(dbName, requestId, getOAuthResponseParameter(response, 'identifier'), '', getOAuthResponseParameter(response, 'error'));
 					}
 				});

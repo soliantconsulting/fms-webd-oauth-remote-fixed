@@ -7,7 +7,7 @@ function getProviderInfo(fmsDNS, callback) {
 			if (xhr.status == 200 && xhr.responseText != null && xhr.responseText != '') {
 				providerInfo = xhr.responseText;
 				const allHeaders = xhr.getAllResponseHeaders();
-        console.log(allHeaders);
+        console.log("allHeaders", allHeaders);
 			}
 			if (callback) {
 				callback(providerInfo);
@@ -31,7 +31,7 @@ function getOAuthURL(trackingId, fmsDNS, provider, callback) {
 			if (callback) {
 				var requestID = xhr.getResponseHeader('X-FMS-Request-ID');
 				var responseText = xhr.responseText;
-				console.log("xhr.responseText", xhr.responseText);
+				// console.log("xhr.responseText", xhr.responseText);
 				// send back both the actual URL and the requestId (first of the two pieces needed for actual login)
 				callback(responseText, requestID);
 			}
@@ -43,9 +43,14 @@ function getOAuthURL(trackingId, fmsDNS, provider, callback) {
 	xhr.setRequestHeader('X-FMS-Application-Type', '8');
 	// xhr.setRequestHeader('X-FMS-Application-Version', '17');
 	// this is where FMS will redirect to once it is done, the identifier will be in the URL at this point
-	xhr.setRequestHeader('X-FMS-Return-URL', window.location.origin + '/oauth-landing.html');
-	console.log("X-FMS-Return-URL", window.location.origin + '/oauth-landing.html');
-	// xhr.setRequestHeader('X-FMS-Return-URL', fmsUrl + '/fmi/webd/oauth-landing.html');
+	
+	// set it to the oauth landing page on the caller
+	// xhr.setRequestHeader('X-FMS-Return-URL', window.location.origin + '/oauth-landing.html');
+	// console.log("X-FMS-Return-URL", window.location.origin + '/oauth-landing.html');
+	
+	// set it to the oauth landing page on the FMS box
+	xhr.setRequestHeader('X-FMS-Return-URL', fmsUrl + '/fmi/webd/oauth-landing.html');
+	console.log("X-FMS-Return-URL", fmsUrl + '/fmi/webd/oauth-landing.html');
 	xhr.send();
 }
 
