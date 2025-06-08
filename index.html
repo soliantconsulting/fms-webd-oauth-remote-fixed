@@ -19,6 +19,7 @@
 		var fmsDNS = 'mbp2013.ets.fm';
 		var thisDNS = 'webdlogin.ets.fm';
 		var OauthProvider = "Microsoft";
+		var homeUrl = "https://" + thisDNS + "/index.html";
 		let fmsWindow;
 
 		function initOAuth() {
@@ -65,14 +66,25 @@
 					let response = event.newValue;
 
 					let retTrackingId = getOAuthResponseParameter(response, 'trackingID');
+					let retIdentifier = getOAuthResponseParameter(response, 'identifier');
+					let retError = getOAuthResponseParameter(response, 'error');
+
+					console.log("retIdentifier", retIdentifier);
+					console.log("retError", retError);
 
 					// Compare tracking ID against returned one to make sure
 					// this is the correct response to process
-					if (trackingId = retTrackingId) {
+					if (trackingId == retTrackingId) {
 						window.removeEventListener("storage", processOAuthResponse);
 						localStorage.removeItem('oauth-response');
 						console.log("response after login", response);
-						doOAuthLogin(dbName, requestId, getOAuthResponseParameter(response, 'identifier'), '', getOAuthResponseParameter(response, 'error'));
+						doOAuthLogin(dbName, requestId, retIdentifier, homeUrl, retError, fmsDNS);
+					}
+					else {
+						console.log("tracking ids do not match:");
+						console.log("trackingId", trackingId);
+						console.log("retTrackingId", retTrackingId);
+						console.log("response", response);
 					}
 				});
 			});
