@@ -23,6 +23,7 @@
 		var thisDNS = 'webdlogin.ets.fm';
 		var OauthProvider = "Microsoft";
 		var homeUrl = "https://" + thisDNS + "/index.html";
+		// levels: trace/debug/info/warn/error
 		log.setLevel("debug"); // set to silent disable logging
 		// end config area
 
@@ -80,6 +81,10 @@
 
 				// Listen to localstorage event to receive response from OAuth provider
 				window.addEventListener("storage", function processOAuthResponse(event) {
+					log.debug("processOAuthResponse", {
+						event: event
+					});
+
 					// Response from OAuth provider
 					// Sample format: "trackingID=123432&identifier=83FF55EF5B8B1442D702C19DF63115BC&error=0"
 					let response = event.newValue;
@@ -88,14 +93,16 @@
 					let retIdentifier = getOAuthResponseParameter(response, 'identifier');
 					let retError = getOAuthResponseParameter(response, 'error');
 
-					log.debug("retIdentifier", retIdentifier);
-					log.debug("retError", retError);
+					log.debug("processOAuthResponse", {
+						retIdentifier: retIdentifier,
+						retError: retError
+					});
 
 					// Compare tracking ID against returned one to make sure
 					// this is the correct response to process
 					if (trackingId == retTrackingId) {
 						window.removeEventListener("storage", processOAuthResponse);
-						//localStorage.removeItem('oauth-response');
+						localStorage.removeItem('oauth-response');
 						log.debug("response after login", response);
 						doOAuthLogin(dbName, requestId, retIdentifier, homeUrl, retError, fmsDNS);
 					}
