@@ -56,6 +56,14 @@ function getOAuthURL(trackingId, fmsDNS, provider, callback) {
 
 
 function doOAuthLogin(dbName, requestId, identifier, homeurl, autherr, fmsDNS) {
+	log.debug("doOAuthLogin", {
+		dbName: dbName,
+		requestId: requestId,
+		identifier: identifier,
+		homeurl: homeurl,
+		autherr: autherr,
+		fmsDNS: fmsDNS
+	});
 	var form, node, queryStr;
 	var server = 'https://' + fmsDNS;
 

@@ -79,6 +79,9 @@
 
 				child.location.replace(oauthUrl);
 
+				// we don't seem to get past this point - the child window for auth shows, auth process finishes
+				// but the response is not processed
+
 				// Listen to localstorage event to receive response from OAuth provider
 				window.addEventListener("storage", function processOAuthResponse(event) {
 					log.debug("processOAuthResponse", {
