@@ -70,8 +70,7 @@
 			let trackingId = "123432";
 			let master = window.location.hostname;
 
-			getOAuthURL(trackingId, fmsDNS, OauthProvider, function (oauthUrl, requestId) {
-				
+			function OAuthUrlCallback(oauthUrl, requestId) {
 				log.debug("callback_getOAuthURL", {
 					oauthUrl: oauthUrl,
 					requestId: requestId
@@ -83,7 +82,7 @@
 				// but the response is not processed
 
 				// Listen to localstorage event to receive response from OAuth provider
-				window.addEventListener("storage", function processOAuthResponse(event) {
+				function processOAuthResponse(event) {
 					log.debug("processOAuthResponse", {
 						event: event
 					});
@@ -116,8 +115,12 @@
 							response: response
 						});
 					}
-				});
-			});
+				}
+
+				window.addEventListener("storage", processOAuthResponse);
+			}
+
+			getOAuthURL(trackingId, fmsDNS, OauthProvider, OAuthUrlCallback);
 		}
 
 	</script>
